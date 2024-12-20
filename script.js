@@ -10,10 +10,20 @@ fetch(dataPath)
       const titleCell = document.createElement('td');
       const repoLinkCell = document.createElement('td');
 
-      const img = document.createElement('img');
-      img.src = item.screenshot;
-      img.alt = item.title;
-      screenshotCell.appendChild(img);
+      // Check if image is an array
+      if (Array.isArray(item.screenshot)) {
+        item.screenshot.forEach(screenshot => {
+          const img = document.createElement('img');
+          img.src = screenshot;
+          img.alt = item.title;
+          screenshotCell.appendChild(img);
+        });
+      } else {
+        const img = document.createElement('img');
+        img.src = item.screenshot;
+        img.alt = item.title;
+        screenshotCell.appendChild(img);
+      }
 
       const repoLink = document.createElement('a');
       repoLink.href = item.repoLink;
