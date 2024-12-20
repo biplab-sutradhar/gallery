@@ -1,5 +1,4 @@
-## Gallery
-[Link](https://biplab-sutradhar.github.io/gallery/)
+## Gallery [Link](https://biplab-sutradhar.github.io/gallery/)
 
 ## Easy
 
