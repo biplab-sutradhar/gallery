@@ -10,19 +10,31 @@ fetch(dataPath)
       const titleCell = document.createElement('td');
       const repoLinkCell = document.createElement('td');
 
-      // Check if image is an array
+      // Check if screenshot is an array
       if (Array.isArray(item.screenshot)) {
         item.screenshot.forEach(screenshot => {
+          const link = document.createElement('a');
+          link.href = item.vizLink;
+          link.target = '_blank';
+
           const img = document.createElement('img');
           img.src = screenshot;
           img.alt = item.title;
-          screenshotCell.appendChild(img);
+
+          link.appendChild(img);
+          screenshotCell.appendChild(link);
         });
       } else {
+        const link = document.createElement('a');
+        link.href = item.vizLink;
+        link.target = '_blank';
+
         const img = document.createElement('img');
         img.src = item.screenshot;
         img.alt = item.title;
-        screenshotCell.appendChild(img);
+
+        link.appendChild(img);
+        screenshotCell.appendChild(link);
       }
 
       const repoLink = document.createElement('a');
