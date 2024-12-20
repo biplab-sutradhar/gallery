@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Fertility Rate Output",
+    "screenshot": "assets/screenshots/fertility_rate_output.png",
+    "vizLink": "https://biplab-sutradhar.github.io/fertility_rate_output",
+    "repoLink": "https://github.com/biplab-sutradhar/fertility_rate_output"
+  },
+  {
+    "title": "Stock Price of Vanke",
+    "screenshot": "assets/screenshots/stock_price_of_vanke.png",
+    "vizLink": "https://biplab-sutradhar.github.io/Stock_price_of_vanke",
+    "repoLink": "https://github.com/biplab-sutradhar/Stock_price_of_vanke"
+  },
+  {
+    "title": "Animation Record",
+    "screenshot": "assets/screenshots/ani_record.png",
+    "vizLink": "https://biplab-sutradhar.github.io/ani_record",
+    "repoLink": "https://github.com/biplab-sutradhar/ani_record"
+  },
+  {
+    "title": "Bisection Method",
+    "screenshot": "assets/screenshots/bisection_method.png",
+    "vizLink": "https://biplab-sutradhar.github.io/bisection_method",
+    "repoLink": "https://github.com/biplab-sutradhar/bisection_method"
+  }
+]
