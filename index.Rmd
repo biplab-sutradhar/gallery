@@ -1,0 +1,46 @@
+---
+title: "Biplab's Animint2 Gallery"
+output: html_document
+---
+
+# Animint2 Gallery by Biplab Sutradhar
+
+Welcome to the Animint2 gallery! Below, you'll find visualizations created using the R package [animint2](https://github.com/animint/animint2). Each entry includes a visualization link, the corresponding repository, and the source details.
+
+```{r setup, include=FALSE}
+library(data.table)
+library(knitr)
+library(nc)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  results = "asis"
+)
+
+# Function to create HTML links
+ahref <- function(href, text) {
+  sprintf('<a href="%s">%s</a>', href, text)
+}
+
+# Function to process meta.csv and update paths
+myread <- function(csv, repo.col) {
+  nc::capture_first_df(
+    fread(csv),
+    viz_owner_repo = list(owner = ".*?", "/", repo_only = ".*")
+  )[
+    , img.png := sprintf("assets/screenshots/%s.png", repo_only)
+  ][
+    , viz.link := ahref(
+      sprintf("https://%s.github.io/%s/", owner, repo_only),
+      ifelse(
+        file.exists(img.png),
+        sprintf('<img src="%s" alt="%s" />', img.png, viz_owner_repo),
+        viz_owner_repo
+      )
+    )
+  ][
+    , repo.link := ahref(
+      sprintf("https://github.com/%s/tree/gh-pages", viz_owner_repo),
+      get(repo.col)
+    )
+  ]
+}
