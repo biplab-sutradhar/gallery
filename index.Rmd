@@ -1,6 +1,9 @@
 ---
 title: "Animint2 Gallery"
-output: html_document
+output: 
+  html_document:
+    theme: bootstrap
+    self_contained: true
 ---
 
 ```{r setup, include=FALSE}
@@ -8,12 +11,13 @@ library(knitr)
 library(data.table)
 library(nc)
 
-# Function to create HTML links
+options(width=200)
+knitr::opts_chunk$set(echo=FALSE, results="asis")
+
 ahref <- function(href, text){
   sprintf('<a href="%s">%s</a>', href, text)
 }
 
-# Function to process meta.csv
 myread <- function(csv, repo.col){
   if(!file.exists(csv)) {
     return(data.table())
@@ -28,7 +32,7 @@ myread <- function(csv, repo.col){
     sprintf("https://%s.github.io/%s/", owner, repo_only),
     ifelse(
       file.exists(img.png),
-      sprintf('<img src="%s" alt="%s" />', img.png, viz_owner_repo),
+      sprintf('<img src="%s" alt="%s" style="max-width:300px;"/>', img.png, viz_owner_repo),
       viz_owner_repo)
   )]
   dt[, repo.link := ahref(
@@ -37,9 +41,17 @@ myread <- function(csv, repo.col){
   return(dt)
 }
 
-# Read meta.csv and error.csv
 meta.dt <- myread("meta.csv", "title")
 if(nrow(meta.dt) > 0) {
   meta.dt[, source.link := ahref(source, commit.POSIXct)]
 }
 error.dt <- myread("error.csv", "viz_owner_repo")
+
+if(nrow(meta.dt) > 0) {
+  cat("### Visualizations\n\n")
+  knitr::kable(meta.dt[order(-commit.POSIXct), .(
+    "Visualization" = viz.link, 
+    "Repository" = repo.link, 
+    "Source" = source.link
+  )], format = "html")
+}
