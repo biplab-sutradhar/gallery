@@ -27,7 +27,7 @@ myread <- function(csv, repo.col) {
     fread(csv),
     viz_owner_repo = list(owner = ".*?", "/", repo_only = ".*")
   )[
-    , img.png := sprintf("assets/screenshots/%s.png", repo_only)
+    , img.png := sprintf("https://%s.github.io/%s/Capture.PNG", owner, repo_only)
   ][
     , viz.link := ahref(
       sprintf("https://%s.github.io/%s/", owner, repo_only),
