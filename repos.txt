@@ -1,4 +1,1 @@
 biplab-sutradhar/fertility_rate_output
-biplab-sutradhar/Stock_price_of_vanke
-biplab-sutradhar/ani_record
-biplab-sutradhar/bisection_method

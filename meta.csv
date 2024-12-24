@@ -1,5 +1,2 @@
-add.POSIXct,viz_owner_repo,commit.POSIXct,source,title
-2023-10-28T05:42:48.192757Z,biplab-sutradhar/fertility_rate_output,2023-10-27T23:58:42Z,https://github.com/biplab-sutradhar/fertility_rate_output,Fertility Rate Visualization
-2023-10-28T05:42:48.192757Z,biplab-sutradhar/Stock_price_of_vanke,2023-10-27T23:58:42Z,https://github.com/biplab-sutradhar/Stock_price_of_vanke,Stock Price Visualization (Vanke)
-2023-10-28T05:42:48.192757Z,biplab-sutradhar/ani_record,2023-10-27T23:58:42Z,https://github.com/biplab-sutradhar/ani_record,Animated Record of Points
-2023-10-28T05:42:48.192757Z,biplab-sutradhar/bisection_method,2023-10-27T23:58:42Z,https://github.com/biplab-sutradhar/bisection_method,Bisection Method for Root Finding
+viz_owner_repo,title,source,commit.POSIXct,add.POSIXct
+biplab-sutradhar/fertility_rate_output,Fertility Rate Visualization,https://github.com/biplab-sutradhar/fertility_rate_output,2024-03-20T00:00:00Z,2024-03-20T00:00:00Z

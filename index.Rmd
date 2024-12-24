@@ -1,69 +1,45 @@
 ---
-title: animint2 gallery
+title: "Animint2 Gallery"
 output: html_document
 ---
 
-This is a gallery of data visualizations which have been creating
-using the R package [animint2](https://github.com/animint/animint2).
+```{r setup, include=FALSE}
+library(knitr)
+library(data.table)
+library(nc)
 
-```{r Ropts, echo=FALSE}
-options(width=200)
-knitr::opts_chunk$set(
-  echo=FALSE,
-  results="asis")
+# Function to create HTML links
 ahref <- function(href, text){
   sprintf('<a href="%s">%s</a>', href, text)
 }
-```
 
-```{r}
+# Function to process meta.csv
 myread <- function(csv, repo.col){
-  nc::capture_first_df(
-    fread(csv),
-    viz_owner_repo=list(owner=".*?", "/", repo_only=".*")
-  )[
-  , img.png := sprintf("repos/%s.png", viz_owner_repo)
-  ][
-  , viz.link := ahref(
+  if(!file.exists(csv)) {
+    return(data.table())
+  }
+  dt <- fread(csv)
+  if(nrow(dt) == 0) {
+    return(data.table())
+  }
+  dt[, c("owner", "repo_only") := tstrsplit(viz_owner_repo, "/")]
+  dt[, img.png := sprintf("repos/%s.png", viz_owner_repo)]
+  dt[, viz.link := ahref(
     sprintf("https://%s.github.io/%s/", owner, repo_only),
     ifelse(
       file.exists(img.png),
       sprintf('<img src="%s" alt="%s" />', img.png, viz_owner_repo),
       viz_owner_repo)
-  )][
-  , repo.link := ahref(
+  )]
+  dt[, repo.link := ahref(
     sprintf("https://github.com/%s/tree/gh-pages", viz_owner_repo),
-    get(repo.col))
-  ]
+    get(repo.col))]
+  return(dt)
 }
-meta.dt <- myread("meta.csv", "title")[
-  , source.link := ahref(
-    source,
-    commit.POSIXct)
-]
+
+# Read meta.csv and error.csv
+meta.dt <- myread("meta.csv", "title")
+if(nrow(meta.dt) > 0) {
+  meta.dt[, source.link := ahref(source, commit.POSIXct)]
+}
 error.dt <- myread("error.csv", "viz_owner_repo")
-```
-
-```{r}
-knitr::kable(meta.dt[order(-commit.POSIXct), .(
-  viz.link, repo.link, source.link
-)])
-download <- function(csv){
-  cat(ahref(csv, paste("Download this table: ", csv)))
-}
-download("meta.csv")
-```
-
-## Visualizations with missing meta-data
-
-```{r}
-knitr::kable(error.dt[, .(
-  viz.link, repo.link, error
-)])
-download("error.csv")
-```
-
-## Source code
-
-* [This gallery repository](https://github.com/animint/gallery/tree/gh-pages),
-* [`animint2::update_gallery()`](https://github.com/animint/animint2/blob/master/R/z_pages.R).
