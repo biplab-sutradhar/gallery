@@ -1,68 +1,69 @@
 ---
-title: "Animint2 Gallery" 
-output:
-  html_document:
-    theme: bootstrap
-    self_contained: true
+title: animint2 gallery
+output: html_document
 ---
 
-```{r setup, include=FALSE}
-library(knitr)
-library(data.table) 
-library(nc)
+This is a gallery of data visualizations which have been creating
+using the R package [animint2](https://github.com/animint/animint2).
 
+```{r Ropts, echo=FALSE}
 options(width=200)
-knitr::opts_chunk$set(echo=FALSE, results="asis")
-
-# Debug print function
-print_debug <- function(label, value) {
-  cat(sprintf("\nDEBUG %s: %s\n", label, value))
-}
-
+knitr::opts_chunk$set(
+  echo=FALSE,
+  results="asis")
 ahref <- function(href, text){
-  print_debug("href", href)
-  print_debug("text", text)
   sprintf('<a href="%s">%s</a>', href, text)
 }
+```
 
+```{r}
 myread <- function(csv, repo.col){
-  if(!file.exists(csv)) {
-    return(data.table())
-  }
-  dt <- fread(csv)
-  if(nrow(dt) == 0) {
-    return(data.table())
-  }
-  dt[, c("owner", "repo_only") := tstrsplit(viz_owner_repo, "/")]
-  dt[, img.png := sprintf("repos/%s.png", viz_owner_repo)]
-  
-  # Debug print viz_owner_repo
-  dt[, print_debug("viz_owner_repo", viz_owner_repo)]
-  
-  dt[, viz.link := ahref(
+  nc::capture_first_df(
+    fread(csv),
+    viz_owner_repo=list(owner=".*?", "/", repo_only=".*")
+  )[
+  , img.png := sprintf("repos/%s.png", viz_owner_repo)
+  ][
+  , viz.link := ahref(
     sprintf("https://%s.github.io/%s/", owner, repo_only),
     ifelse(
       file.exists(img.png),
-      sprintf('<img src="%s" alt="%s" style="max-width:300px;"/>', img.png, viz_owner_repo),
+      sprintf('<img src="%s" alt="%s" />', img.png, viz_owner_repo),
       viz_owner_repo)
-  )]
-  dt[, repo.link := ahref(
+  )][
+  , repo.link := ahref(
     sprintf("https://github.com/%s/tree/gh-pages", viz_owner_repo),
-    get(repo.col))]
-  return(dt)
+    get(repo.col))
+  ]
 }
-
-meta.dt <- myread("meta.csv", "title")
-if(nrow(meta.dt) > 0) {
-  meta.dt[, source.link := ahref(source, commit.POSIXct)]
-}
+meta.dt <- myread("meta.csv", "title")[
+  , source.link := ahref(
+    source,
+    commit.POSIXct)
+]
 error.dt <- myread("error.csv", "viz_owner_repo")
+```
 
-if(nrow(meta.dt) > 0) {
-  cat("### Visualizations\n\n")
-  knitr::kable(meta.dt[order(-commit.POSIXct), .(
-    "Visualization" = viz.link, 
-    "Repository" = repo.link, 
-    "Source" = source.link
-  )], format = "html")
+```{r}
+knitr::kable(meta.dt[order(-commit.POSIXct), .(
+  viz.link, repo.link, source.link
+)])
+download <- function(csv){
+  cat(ahref(csv, paste("Download this table: ", csv)))
 }
+download("meta.csv")
+```
+
+## Visualizations with missing meta-data
+
+```{r}
+knitr::kable(error.dt[, .(
+  viz.link, repo.link, error
+)])
+download("error.csv")
+```
+
+## Source code
+
+* [This gallery repository](https://github.com/animint/gallery/tree/gh-pages),
+* [`animint2::update_gallery()`](https://github.com/animint/animint2/blob/master/R/z_pages.R).
