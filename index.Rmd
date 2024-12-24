@@ -34,13 +34,7 @@ myread <- function(csv, repo.col) {
       ifelse(
         file.exists(img.png),
         sprintf('<img src="%s" alt="%s" />', img.png, viz_owner_repo),
-        viz_owner_repo
-      )
-    )
-  ][
-    , repo.link := ahref(
-      sprintf("https://github.com/%s/tree/gh-pages", viz_owner_repo),
-      get(repo.col)
+        viz_owner_repo)
     )
   ]
 }
