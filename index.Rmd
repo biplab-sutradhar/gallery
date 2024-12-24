@@ -53,13 +53,4 @@ download <- function(csv){
 }
 download("meta.csv")
 ```
-
-## Visualizations with missing meta-data
-
-```{r}
-knitr::kable(error.dt[, .(
-  viz.link, repo.link, error
-)])
-download("error.csv")
-```
- 
+  
