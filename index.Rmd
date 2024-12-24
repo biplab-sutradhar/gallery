@@ -1,6 +1,6 @@
 ---
-title: "Animint2 Gallery"
-output: 
+title: "Animint2 Gallery" 
+output:
   html_document:
     theme: bootstrap
     self_contained: true
@@ -8,13 +8,20 @@ output:
 
 ```{r setup, include=FALSE}
 library(knitr)
-library(data.table)
+library(data.table) 
 library(nc)
 
 options(width=200)
 knitr::opts_chunk$set(echo=FALSE, results="asis")
 
+# Debug print function
+print_debug <- function(label, value) {
+  cat(sprintf("\nDEBUG %s: %s\n", label, value))
+}
+
 ahref <- function(href, text){
+  print_debug("href", href)
+  print_debug("text", text)
   sprintf('<a href="%s">%s</a>', href, text)
 }
 
@@ -28,6 +35,10 @@ myread <- function(csv, repo.col){
   }
   dt[, c("owner", "repo_only") := tstrsplit(viz_owner_repo, "/")]
   dt[, img.png := sprintf("repos/%s.png", viz_owner_repo)]
+  
+  # Debug print viz_owner_repo
+  dt[, print_debug("viz_owner_repo", viz_owner_repo)]
+  
   dt[, viz.link := ahref(
     sprintf("https://%s.github.io/%s/", owner, repo_only),
     ifelse(
