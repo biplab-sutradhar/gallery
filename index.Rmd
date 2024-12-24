@@ -1,5 +1,5 @@
 ---
-title: animint2 gallery
+title: Animint2 Gallery
 output: html_document
 ---
 
@@ -62,8 +62,4 @@ knitr::kable(error.dt[, .(
 )])
 download("error.csv")
 ```
-
-## Source code
-
-* [This gallery repository](https://github.com/animint/gallery/tree/gh-pages),
-* [`animint2::update_gallery()`](https://github.com/animint/animint2/blob/master/R/z_pages.R).
+ 
