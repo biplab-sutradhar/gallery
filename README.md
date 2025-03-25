@@ -3,7 +3,7 @@
 ### Easy
 
 #### Fertility Rate Visualization
-- **Code**: [GitHub](https://github.com/biplab-sutradhar/gallery/tree/main/fertility_rate_output)
+- **Code**: [GitHub](https://github.com/biplab-sutradhar/gallery/blob/main/easy.R)
 - **Output**: [Live Demo](https://biplab-sutradhar.github.io/fertility_rate_output/)
 
 ### Medium
